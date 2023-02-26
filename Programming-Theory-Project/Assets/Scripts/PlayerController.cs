@@ -4,31 +4,63 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    [SerializeField] private float turnSmoothTime;
     [SerializeReference] private Transform cam;
+
+    private float speed = 6.0f;
+    private float jumpHeight = 2.0f;
+    private float turnSmoothTime = 0.1f;
+    private const float gravity = -13.0f;
+
     private CharacterController controller;
-    float turnSmoothVelocity;
+    private Vector3 velocity;
+    private float turnSmoothVelocity;
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         controller = GetComponent<CharacterController>();
     }
 
     private void Update()
     {
+        MovePlayer();
+        Jump();
+    }
+
+    private void MovePlayer()
+    {
+        // get player inputs
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
 
+        if (controller.isGrounded && velocity.y < 0)
+            velocity.y = -2.0f;
+
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
+
         if (direction.magnitude >= 0.1f)
         {
+            // angle player facing
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+
+            // smoothing the value change of angle
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
+        }
+    }
+
+    private void Jump()
+    {
+        if (Input.GetButtonDown("Jump") && controller.isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
         }
     }
 }
