@@ -1,28 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    private NavMeshAgent agent;
     public float range; //radius of sphere
 
     public Vector3 centrePoint; //centre of the area the agent wants to move around in
     //instead of centrePoint you can set it as the transform of the agent if you don't care about a specific area
 
     private FieldOfView fov;
+    private NavMeshAgent agent;
+    protected AudioSource enemyAudio;
 
     private void Awake()
     {
         fov = GetComponent<FieldOfView>();
+        agent = GetComponent<NavMeshAgent>();
+        enemyAudio = GetComponent<AudioSource>();
     }
 
     void Start()
     {
         centrePoint = transform.position;
-        agent = GetComponent<NavMeshAgent>();
     }
 
     void Update()
@@ -48,7 +49,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Aggro()
+    public virtual void Aggro()
     {
         agent.SetDestination(fov.playerRef.transform.position);
     }
