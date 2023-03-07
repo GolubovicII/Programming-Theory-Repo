@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,6 +12,13 @@ public class Enemy : MonoBehaviour
     public Vector3 centrePoint; //centre of the area the agent wants to move around in
     //instead of centrePoint you can set it as the transform of the agent if you don't care about a specific area
 
+    private FieldOfView fov;
+
+    private void Awake()
+    {
+        fov = GetComponent<FieldOfView>();
+    }
+
     void Start()
     {
         centrePoint = transform.position;
@@ -19,7 +27,12 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        Patrol();
+        if (fov.canSeePalyer == true)
+        {
+            Aggro();
+        }
+        else if (fov.canSeePalyer == false)
+            Patrol();
     }
 
     public void Patrol()
@@ -33,6 +46,11 @@ public class Enemy : MonoBehaviour
                 agent.SetDestination(point);
             }
         }
+    }
+
+    public void Aggro()
+    {
+        agent.SetDestination(fov.playerRef.transform.position);
     }
 
     private bool RandomPoint(Vector3 center, float range, out Vector3 result)
