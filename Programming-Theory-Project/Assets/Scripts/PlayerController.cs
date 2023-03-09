@@ -4,16 +4,43 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // reference to main camera
     [SerializeReference] private Transform cam;
 
+    // speed property, throws error if set negative
     private float speed = 6.0f;
+    [SerializeField]
+    float speedBacking
+    {
+        get { return speed; }
+        set
+        {
+            if (value < 0.0f) Debug.LogError("You can't set a negative speed value");
+            else speedBacking = value;
+        }
+    }
+
+    // jump height property, throws error if set negative
     private float jumpHeight = 2.0f;
+    [SerializeField]
+    float jumpHeightBacking
+    {
+        get { return jumpHeight; }
+        set
+        {
+            if (value < 0.0f) Debug.LogError("You can't set a negative jump height value");
+            else jumpHeightBacking = value;
+        }
+    }
+
     private float turnSmoothTime = 0.1f;
+    private float turnSmoothVelocity;
+
     private const float gravity = -13.0f;
+    private Vector3 velocity;
+
 
     private CharacterController controller;
-    private Vector3 velocity;
-    private float turnSmoothVelocity;
 
     private void Start()
     {
@@ -52,7 +79,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+            controller.Move(moveDir.normalized * speedBacking * Time.deltaTime);
         }
     }
 
@@ -60,7 +87,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButton("Jump") && controller.isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
+            velocity.y = Mathf.Sqrt(jumpHeightBacking * -2.0f * gravity);
         }
     }
 }

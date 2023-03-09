@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
-    public float range; //radius of sphere
+    [SerializeField]
+    float range; //radius of sphere
 
-    public Vector3 centrePoint; //centre of the area the agent wants to move around in
-    //instead of centrePoint you can set it as the transform of the agent if you don't care about a specific area
+    [SerializeField]
+    Vector3 centrePoint; //centre of the area the agent wants to move around in
 
     private FieldOfView fov;
     private NavMeshAgent agent;
@@ -29,9 +30,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         if (fov.canSeePalyer == true)
-        {
             Aggro();
-        }
         else if (fov.canSeePalyer == false)
             Patrol();
     }
@@ -52,6 +51,12 @@ public class Enemy : MonoBehaviour
     public virtual void Aggro()
     {
         agent.SetDestination(fov.playerRef.transform.position);
+    }
+
+    public void Yell(AudioClip sound)
+    {
+        if (!enemyAudio.isPlaying)
+            enemyAudio.PlayOneShot(sound, 0.3f);
     }
 
     private bool RandomPoint(Vector3 center, float range, out Vector3 result)

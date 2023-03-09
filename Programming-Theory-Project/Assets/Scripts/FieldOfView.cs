@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
+    // enemy watch distance
     public float radius;
+
+    // enemy fov
     [Range(0, 360)]
     public float angle;
 
+    // player reference
     public GameObject playerRef;
 
-    public LayerMask targetMask;
-    public LayerMask obstructionMask;
+    [SerializeField]
+    LayerMask targetMask;
 
-    public bool canSeePalyer;
+    [SerializeField]
+    LayerMask obstructionMask;
+
+    public bool canSeePalyer { get; private set; }
 
     private void Start()
     {

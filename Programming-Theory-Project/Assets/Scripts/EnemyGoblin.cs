@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class EnemyGoblin : Enemy
 {
-    public AudioClip angryGoblinSound;
+    [SerializeReference]
+    AudioClip angryGoblinSound;
 
     public override void Aggro()
     {
         base.Aggro();
 
-        if (!enemyAudio.isPlaying)
-            enemyAudio.PlayOneShot(angryGoblinSound, 0.3f);
+        Yell(angryGoblinSound);
     }
 }
