@@ -354,6 +354,9 @@
 "Assets/Scripts/EnemyGoblin.cs"
 "Assets/Scripts/EnemyHuman.cs"
 "Assets/Scripts/FieldOfView.cs"
+"Assets/Scripts/GameController.cs"
+"Assets/Scripts/GameManager.cs"
+"Assets/Scripts/MainMenuController.cs"
 "Assets/Scripts/PlayerController.cs"
 -langversion:9.0
 
