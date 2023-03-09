@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
         FaceTheCamera();
     }
 
+    // ABSTRACTION
     private void FaceTheCamera()
     {
         Quaternion q = Camera.main.transform.rotation;

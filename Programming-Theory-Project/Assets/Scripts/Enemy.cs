@@ -35,6 +35,7 @@ public abstract class Enemy : MonoBehaviour
             Patrol();
     }
 
+    // ABSTRACTION
     public void Patrol()
     {
         if (agent.remainingDistance <= agent.stoppingDistance) //done with path
@@ -48,17 +49,20 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    // ABSTRACTION
     public virtual void Aggro()
     {
         agent.SetDestination(fov.playerRef.transform.position);
     }
 
+    // ABSTRACTION
     public void Yell(AudioClip sound)
     {
         if (!enemyAudio.isPlaying)
             enemyAudio.PlayOneShot(sound, 0.3f);
     }
 
+    // ABSTRACTION
     private bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
         Vector3 randomPoint = center + Random.insideUnitSphere * range; //random point in a sphere 

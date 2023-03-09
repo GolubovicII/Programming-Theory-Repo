@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     // reference to main camera
     [SerializeReference] private Transform cam;
 
+    // ENCAPSULATION
     // speed property, throws error if set negative
     private float speed = 6.0f;
     [SerializeField]
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // ENCAPSULATION
     // jump height property, throws error if set negative
     private float jumpHeight = 2.0f;
     [SerializeField]
@@ -55,6 +57,7 @@ public class PlayerController : MonoBehaviour
         Jump();
     }
 
+    // ABSTRACTION
     private void MovePlayer()
     {
         // get player inputs
@@ -83,6 +86,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // ABSTRACTION
     private void Jump()
     {
         if (Input.GetButton("Jump") && controller.isGrounded)

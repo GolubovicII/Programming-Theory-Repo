@@ -20,6 +20,7 @@ public class FieldOfView : MonoBehaviour
     [SerializeField]
     LayerMask obstructionMask;
 
+    // ENCAPSULATION
     public bool canSeePalyer { get; private set; }
 
     private void Start()
@@ -39,6 +40,7 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
+    // ABSTRACTION
     private void FieldOfViewCheck()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
